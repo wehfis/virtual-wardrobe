@@ -1,7 +1,8 @@
 from flask_login import login_required
-
 from website import create_app
-from flask import Flask, render_template
+from flask import  Flask, Blueprint, render_template, redirect, request, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_required, login_user, logout_user, current_user
 
 app = create_app()
 
@@ -43,8 +44,6 @@ def handle_error(error):
     description = "An unexpected error occurred."
     error_code = "UNKNOWN"
     return render_template('error.html', error=error, description=description), 500
-
-
-# turn off in production
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/')
+def starrt():
+    return redirect(url_for('auth.start'))
